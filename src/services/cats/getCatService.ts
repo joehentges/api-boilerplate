@@ -1,12 +1,16 @@
 import { Request, Response } from "express"
-import { StatusCodes } from "http-status-codes"
 import { pino } from "pino"
 import { z } from "zod"
 
 import { DataNotFoundError } from "@/errors"
 import { getCat } from "@/data-access/cats"
+import {
+  dataNotFoundErrorResponse,
+  serviceExecutionErrorResponse,
+  zodErrorResponse,
+} from "@/lib/errorResponse"
 
-const logger = pino({ name: "get-cat-service" })
+const logger = pino({ name: "services | cats | getCatService" })
 
 const requestSchema = z.object({
   params: z.object({
@@ -37,27 +41,16 @@ export async function getCatService(req: Request, res: Response) {
   } catch (error) {
     if (error instanceof z.ZodError) {
       logger.error(`Get Cat request payload validation error ${JSON.stringify(error)}`)
-      res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
-        code: "0001",
-        title: "Request payload validation error",
-        message: "Request is missing required payload values",
-        error: error.issues,
-      })
+      return zodErrorResponse("0001", error, res)
       return
     }
 
     if (error instanceof DataNotFoundError) {
       logger.error(`Get Cat request data access error ${JSON.stringify(error)}`)
-      res.status(StatusCodes.NOT_FOUND).send({
-        code: "0001",
-        title: "No data found",
-        message: error.message,
-        params: error.params,
-      })
-      return
+      return dataNotFoundErrorResponse("0002", error, res)
     }
 
     logger.error(`Get Cat request service execution error ${JSON.stringify(error)}`)
-    res.status(500).send("Get Cat request service execution error")
+    serviceExecutionErrorResponse("0003", "Get Cat request service execution error", res)
   }
 }

@@ -1,12 +1,11 @@
 import { Request, Response } from "express"
-import { StatusCodes } from "http-status-codes"
 import { pino } from "pino"
 import { z } from "zod"
 
-import { DataNotFoundError } from "@/errors"
 import { createCat } from "@/data-access/cats"
+import { serviceExecutionErrorResponse, zodErrorResponse } from "@/lib/errorResponse"
 
-const logger = pino({ name: "create-cat-service" })
+const logger = pino({ name: "services | cats | createCatService" })
 
 const requestSchema = z.object({
   body: z.object({
@@ -26,16 +25,10 @@ export async function createCatService(req: Request, res: Response) {
   } catch (error) {
     if (error instanceof z.ZodError) {
       logger.error(`Create Cat request payload validation error ${JSON.stringify(error)}`)
-      res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
-        code: "0011",
-        title: "Request payload validation error",
-        message: "Request is missing required payload values",
-        error: error.issues,
-      })
-      return
+      return zodErrorResponse("0011", error, res)
     }
 
     logger.error(`Create Cat request service execution error ${JSON.stringify(error)}`)
-    res.status(500).send("Create Cat request service execution error")
+    serviceExecutionErrorResponse("0012", "Create Cat request service execution error", res)
   }
 }

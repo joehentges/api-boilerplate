@@ -20,6 +20,7 @@ module.exports = {
     "^@/data-access/(.*)$",
     "^@/lib/(.*)$",
     "^@/middleware/(.*)$",
+    "",
     "^@/services/(.*)$",
     "",
     "^[./]",

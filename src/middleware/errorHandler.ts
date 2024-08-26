@@ -2,7 +2,7 @@ import type { ErrorRequestHandler, RequestHandler } from "express"
 import { StatusCodes } from "http-status-codes"
 import { pino } from "pino"
 
-const logger = pino({ name: "error-handler" })
+const logger = pino({ name: "middleware | errorHandler" })
 
 const unexpectedRequest: RequestHandler = (_req, res) => {
   logger.error(`Path ${_req.url} NOT FOUND`)

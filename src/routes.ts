@@ -1,6 +1,8 @@
 import express from "express"
 import { pino } from "pino"
 
+import { isSecure } from "@/middleware/isSecure"
+
 import { createCatService, getCatService } from "@/services/cats"
 import { getHealthService } from "@/services/health"
 
@@ -12,6 +14,6 @@ router.get("/health", getHealthService)
 
 // Cats
 router.get("/cats/:catId", getCatService)
-router.post("/cats", createCatService)
+router.post("/cats", isSecure, createCatService)
 
 export default router

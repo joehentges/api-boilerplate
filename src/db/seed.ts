@@ -3,7 +3,7 @@ import "dotenv/config"
 import { faker } from "@faker-js/faker"
 
 import { database, pg } from "./index"
-import { cats } from "./schema"
+import { cats } from "./schemas"
 
 async function main() {
   const catsSeed = await database

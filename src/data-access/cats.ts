@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm"
 
 import { PrimaryKey } from "@/types"
 import { database } from "@/db"
-import { Cat, cats } from "@/db/schema"
+import { Cat, cats } from "@/db/schemas"
 
 export async function getCat(catId: PrimaryKey) {
   const cat = await database.query.cats.findFirst({
