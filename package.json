@@ -1,6 +1,6 @@
 {
-  "name": "api-boilerplate",
-  "version": "1.0.0",
+  "name": "scheduling-api",
+  "version": "0.1.0",
   "author": "",
   "description": "",
   "keywords": [],
@@ -12,6 +12,7 @@
     "build": "tsc && tsc-alias",
     "start": "node ./dist/index.js",
     "format": "prettier --write src//**/*.ts",
+    "pre": "npm run format && npm run build",
     "db:push": "drizzle-kit push --config=drizzle.config.ts",
     "db:migrate": "tsx ./src/db/migrate.ts",
     "db:generate": "drizzle-kit generate --config=drizzle.config.ts",
@@ -35,7 +36,6 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.4.1",
     "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",

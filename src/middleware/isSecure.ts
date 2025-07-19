@@ -4,11 +4,12 @@ import { pino } from "pino"
 
 const logger = pino({ name: "middleware | isSecure" })
 
-export function isSecure(req: Request, res: Response, next: NextFunction) {
-  if (!req.headers.session) {
-    logger.error(`Missing session in headers ${JSON.stringify(req.headers)}`)
+export async function isSecure(req: Request, res: Response, next: NextFunction) {
+  const token = req.headers.authorization
+  if (!token) {
+    logger.error(`Missing authorization in headers ${JSON.stringify(req.headers)}`)
     return res.status(StatusCodes.UNAUTHORIZED).json({
-      message: "Missing session",
+      message: "Missing authorization token",
     })
   }
   next()

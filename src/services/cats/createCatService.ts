@@ -2,7 +2,8 @@ import { Request, Response } from "express"
 import { pino } from "pino"
 import { z } from "zod"
 
-import { createCat } from "@/data-access/cats"
+import { database } from "@/db"
+import { catsTable } from "@/db/schemas"
 import { serviceExecutionErrorResponse, zodErrorResponse } from "@/lib/errorResponse"
 
 const logger = pino({ name: "services | cats | createCatService" })
@@ -19,7 +20,14 @@ export async function createCatService(req: Request, res: Response) {
   try {
     const { body } = requestSchema.parse(req)
 
-    const cat = await createCat(body)
+    const cat = await database
+      .insert(catsTable)
+      .values({
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        ...body,
+      })
+      .returning()
 
     res.status(200).json(cat)
   } catch (error) {

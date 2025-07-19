@@ -1,6 +1,6 @@
 import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core"
 
-export const cats = pgTable("cats", {
+export const catsTable = pgTable("cats", {
   id: serial("id").primaryKey(),
   createdAt: timestamp("created_at", {
     withTimezone: true,
@@ -15,4 +15,4 @@ export const cats = pgTable("cats", {
   bio: text("bio").notNull().default(""),
 })
 
-export type Cat = typeof cats.$inferSelect
+export type Cat = typeof catsTable.$inferSelect

@@ -1,9 +1,11 @@
+import { eq } from "drizzle-orm"
 import { Request, Response } from "express"
 import { pino } from "pino"
 import { z } from "zod"
 
 import { DataNotFoundError } from "@/errors"
-import { getCat } from "@/data-access/cats"
+import { database } from "@/db"
+import { catsTable } from "@/db/schemas"
 import {
   dataNotFoundErrorResponse,
   serviceExecutionErrorResponse,
@@ -22,7 +24,7 @@ export async function getCatService(req: Request, res: Response) {
   try {
     const { params } = requestSchema.parse(req)
 
-    const cat = await getCat(params.catId)
+    const cat = await database.select().from(catsTable).where(eq(catsTable.id, params.catId))
 
     if (!cat) {
       throw new DataNotFoundError({
