@@ -1,1 +1,1 @@
-export * from "./getHealthService"
+export * from "./get-health-service"

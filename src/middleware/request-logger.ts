@@ -1,5 +1,5 @@
-import { randomUUID } from "node:crypto"
 import type { IncomingMessage, ServerResponse } from "node:http"
+import { createId } from "@paralleldrive/cuid2"
 import type { Request, RequestHandler, Response } from "express"
 import { getReasonPhrase, StatusCodes } from "http-status-codes"
 import type { LevelWithSilent } from "pino"
@@ -86,7 +86,7 @@ const customSuccessMessage = (req: IncomingMessage, res: ServerResponse<Incoming
 const genReqId = (req: IncomingMessage, res: ServerResponse<IncomingMessage>) => {
   const existingID = req.id ?? req.headers["x-request-id"]
   if (existingID) return existingID
-  const id = randomUUID()
+  const id = createId()
   res.setHeader("X-Request-Id", id)
   return id
 }

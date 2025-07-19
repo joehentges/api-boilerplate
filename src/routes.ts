@@ -1,7 +1,7 @@
 import express from "express"
 import { pino } from "pino"
 
-import { isSecure } from "@/middleware/isSecure"
+import { isSecure } from "@/middleware/is-secure"
 
 import { createCatService, getCatService } from "@/services/cats"
 import { getHealthService } from "@/services/health"

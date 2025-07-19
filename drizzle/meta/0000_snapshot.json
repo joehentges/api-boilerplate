@@ -1,5 +1,5 @@
 {
-  "id": "cab81b28-aae1-4e73-96a2-ef9e44e07808",
+  "id": "af4e9acd-40f3-45a9-9c35-ddfbb5890ae7",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -10,21 +10,23 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "text",
           "primaryKey": true,
           "notNull": true
         },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp with time zone",
+        "date_created": {
+          "name": "date_created",
+          "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp with time zone",
+        "date_updated": {
+          "name": "date_updated",
+          "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
         "full_name": {
           "name": "full_name",

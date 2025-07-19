@@ -1,2 +1,2 @@
-export * from "./getCatService"
-export * from "./createCatService"
+export * from "./get-cat-service"
+export * from "./create-cat-service"

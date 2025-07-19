@@ -4,7 +4,7 @@ import { z } from "zod"
 
 import { database } from "@/db"
 import { catsTable } from "@/db/schemas"
-import { serviceExecutionErrorResponse, zodErrorResponse } from "@/lib/errorResponse"
+import { serviceExecutionErrorResponse, zodErrorResponse } from "@/lib/error-response"
 
 const logger = pino({ name: "services | cats | createCatService" })
 
@@ -23,8 +23,6 @@ export async function createCatService(req: Request, res: Response) {
     const cat = await database
       .insert(catsTable)
       .values({
-        createdAt: new Date(),
-        updatedAt: new Date(),
         ...body,
       })
       .returning()

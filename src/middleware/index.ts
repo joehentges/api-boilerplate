@@ -1,3 +1,3 @@
-export * from "./rateLimiter"
-export { default as requestLogger } from "./requestLogger"
-export { default as errorHandler } from "./errorHandler"
+export * from "./rate-limiter"
+export { default as requestLogger } from "./request-logger"
+export { default as errorHandler } from "./error-handler"

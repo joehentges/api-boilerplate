@@ -10,13 +10,13 @@ import {
   dataNotFoundErrorResponse,
   serviceExecutionErrorResponse,
   zodErrorResponse,
-} from "@/lib/errorResponse"
+} from "@/lib/error-response"
 
 const logger = pino({ name: "services | cats | getCatService" })
 
 const requestSchema = z.object({
   params: z.object({
-    catId: z.coerce.number(),
+    catId: z.string().min(1),
   }),
 })
 
@@ -24,7 +24,7 @@ export async function getCatService(req: Request, res: Response) {
   try {
     const { params } = requestSchema.parse(req)
 
-    const cat = await database.select().from(catsTable).where(eq(catsTable.id, params.catId))
+    const [cat] = await database.select().from(catsTable).where(eq(catsTable.id, params.catId))
 
     if (!cat) {
       throw new DataNotFoundError({
@@ -44,7 +44,6 @@ export async function getCatService(req: Request, res: Response) {
     if (error instanceof z.ZodError) {
       logger.error(`Get Cat request payload validation error ${JSON.stringify(error)}`)
       return zodErrorResponse("0001", error, res)
-      return
     }
 
     if (error instanceof DataNotFoundError) {
